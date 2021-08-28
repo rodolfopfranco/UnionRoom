@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@CrossOrigin(origins =  "http://localhost:4200")
+@RestController @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1")
 public class RoomController {
 
@@ -25,7 +24,7 @@ public class RoomController {
         return roomRepository.findAll();
     }
 
-    @GetMapping("/rooms/id")
+    @GetMapping("/rooms/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") long roomId)
         throws ResourceNotFoundException {
         Room room = roomRepository.findById(roomId)
@@ -39,20 +38,19 @@ public class RoomController {
     }
 
     @PutMapping("/rooms/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable (value = "id") Long roomId,
-                                           @Valid @RequestBody Room roomDetails)
-        throws ResourceNotFoundException {
-                Room room = roomRepository.findById(roomId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Room not found with Id "+roomId));
-                room.setName(roomDetails.getName());
-                room.setDate(roomDetails.getDate());
-                room.setStartHour(roomDetails.getStartHour());
-                room.setEndHour(roomDetails.getEndHour());
-                final Room updateRoom = roomRepository.save(room);
-                return ResponseEntity.ok(updateRoom);
+    public ResponseEntity<Room> updateRoom(@PathVariable(value = "id") Long roomId,
+                                           @Valid @RequestBody Room roomDetails) throws ResourceNotFoundException {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with Id "+roomId));
+        room.setName(roomDetails.getName());
+        room.setDate(roomDetails.getDate());
+        room.setStartHour(roomDetails.getStartHour());
+        room.setEndHour(roomDetails.getEndHour());
+        final Room updateRoom = roomRepository.save(room);
+        return ResponseEntity.ok(updateRoom);
     }
 
-    @DeleteMapping("/rooms")
+    @DeleteMapping("/rooms/{id}")
     public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long roomId)
         throws ResourceNotFoundException {
         Room room = roomRepository.findById(roomId)
