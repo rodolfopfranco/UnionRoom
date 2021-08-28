@@ -18,14 +18,6 @@ public class Room {
     private String startHour;
     private String endHour;
 
-    public Room(long id, String name, String date, String startHour, String endHour) {
-        this.id = id;
-        this.name = name;
-        this.date = date;
-        this.startHour = startHour;
-        this.endHour = endHour;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
